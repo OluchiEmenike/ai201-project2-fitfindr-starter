@@ -32,19 +32,31 @@ def handle_query(user_query: str, wardrobe_choice: str) -> tuple[str, str, str]:
         A tuple of three strings:
             (listing_text, outfit_suggestion, fit_card)
         Each string maps to one of the three output panels in the UI.
-
-    TODO:
-        1. Guard against an empty query (return early with an error message).
-        2. Select the wardrobe based on wardrobe_choice.
-        3. Call run_agent() with the query and selected wardrobe.
-        4. If session["error"] is set, return the error in the first panel
-           and empty strings for the other two.
-        5. Otherwise, format session["selected_item"] into a readable listing_text
-           string and return it along with session["outfit_suggestion"] and
-           session["fit_card"].
     """
-    # TODO: implement this function
-    return "Agent not yet implemented.", "", ""
+    if not user_query or not str(user_query).strip():
+        return "Please enter a search for an item you want to find.", "", ""
+
+    wardrobe = get_example_wardrobe() if wardrobe_choice == "Example wardrobe" else get_empty_wardrobe()
+    session = run_agent(user_query, wardrobe)
+
+    if session.get("error"):
+        return session["error"], "", ""
+
+    item = session.get("selected_item")
+    if not item:
+        return "No listing was selected for this search.", "", ""
+
+    listing_text = (
+        f"{item.get('title')}\n"
+        f"Category: {item.get('category', 'n/a')}\n"
+        f"Price: ${float(item.get('price', 0) or 0):.2f}\n"
+        f"Size: {item.get('size', 'n/a')}\n"
+        f"Brand: {item.get('brand') or 'Unknown'}\n"
+        f"Platform: {item.get('platform', 'n/a')}\n"
+        f"Description: {item.get('description', 'No description available.')}"
+    )
+
+    return listing_text, session.get("outfit_suggestion", ""), session.get("fit_card", "")
 
 
 # ── interface ─────────────────────────────────────────────────────────────────
