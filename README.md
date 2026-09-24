@@ -179,13 +179,14 @@ I used AI in two specific implementation steps:
 Reading through the planning.md clarified the requirements for each tool and the expected flow of the agent before coding began. It reduced ambiguity by setting the search → outfit → fit-card sequence and by defining the success and failure conditions for each stage.
 
 **One divergence from your spec, and why:**
-The implementation uses graceful fallback behavior in a few edge cases instead of strict failures. For example, when the wardrobe is empty or the Groq API is unavailable, the app still returns useful styling advice or a safe caption fallback rather than crashing, which makes the project more resilient in real use.
+
+The implementation uses graceful fallback behavior in a few edge cases instead of strict failures. For example, when the wardrobe is empty or the Groq API is unavailable, the app still returns useful styling advice or a safe caption fallback rather than crashing, which makes the project more realistic in real use.
 
 ---
 
 ## Verification 
 
-I validated the project by running the app and checking the full user flow. A happy-path query such as a vintage graphic tee under budget correctly populated the listing, outfit, and fit-card panels. I also tested a failure case, including an empty-wardrobe scenario, and confirmed the app responds with the required fit-card error message rather than crashing.
+I validated the project by running the app and checking the full user flow. A happy-path query such as a vintage graphic tee under budget correctly populated the listing, outfit, and fit-card panels. I also tested a failure case, including an empty-wardrobe scenario, and confirmed the app responds with the required fit-card error message rather than crashing. 
 
 ---
 ## Youtube Link
